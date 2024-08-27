@@ -1,8 +1,15 @@
 import React from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import StarIcon from "@mui/icons-material/Star";
+import { useWeb3 } from '../context/context'; // Import the Web3 context
 
 export default function AnswerList({ answers, openPopup }) {
+  const { voteOnAnswer } = useWeb3(); // Get the voteOnAnswer function from the context
+
+  const handleVote = (answerId) => {
+    voteOnAnswer(answerId); // Call the smart contract function
+  };
+
   return (
     <div className="max-w-[1600px] pt-4">
       {answers.map((answer) => (
@@ -20,8 +27,6 @@ export default function AnswerList({ answers, openPopup }) {
           </div>
           <p className="text-xl">{answer.content}</p>
           <div className="flex w-full items-end justify-between">
-            {/* Conditionally render the StarIcon and id if options exist */}
-
             <div className="flex items-center">
               {answer.options && answer.options.length > 0 && (
                 <StarIcon className="h-3 w-4 mr-5" />
@@ -35,6 +40,8 @@ export default function AnswerList({ answers, openPopup }) {
               Amount: {answer.amount}
             </div>
           </div>
+          {/* Add a button to vote on this answer */}
+          <button onClick={() => handleVote(answer.id)}>Vote</button>
         </div>
       ))}
     </div>

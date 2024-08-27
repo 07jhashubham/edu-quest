@@ -1,8 +1,15 @@
 import React from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import CloseIcon from "@mui/icons-material/Close";
+import { useWeb3 } from '../context/context'; // Import the Web3 context
 
 export default function AnswerPopup({ answer, closePopup }) {
+  const { submitAnswer } = useWeb3(); // Get the submitAnswer function from the context
+
+  const handleSubmit = () => {
+    submitAnswer(answer.id); // Call the smart contract function
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex w-full flex-col items-center justify-center bg-gray-800 bg-opacity-75">
       <div className="relative flex w-full flex-col items-center justify-center text-white">
@@ -31,7 +38,6 @@ export default function AnswerPopup({ answer, closePopup }) {
           </div>
           <p className="mt-4 text-lime-300">{answer.content}</p>
 
-          {/* Render options if they exist */}
           {answer.options && answer.options.length > 0 && (
             <div className="mt-4">
               <p className="text-white">Options:</p>
@@ -55,7 +61,7 @@ export default function AnswerPopup({ answer, closePopup }) {
           <div className="mt-6 flex items-center justify-center">
             <button
               className="rounded-lg border-amber-300 bg-pink-400 px-8 py-3 font-mono text-lg text-black shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:translate-x-1 hover:border-b-8 hover:border-l-8 hover:bg-pink-500"
-              onClick={closePopup}
+              onClick={handleSubmit} // Handle submit using Web3
             >
               Submit Answer
             </button>
