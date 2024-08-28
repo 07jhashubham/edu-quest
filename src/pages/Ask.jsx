@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import DeskNav from "../components/Desktopnav";
+import { useWeb3 } from "../context/context";
 
 export default function Ask() {
-  const [options, setOptions] = useState([]);
+  const [options, setOptions] = useState([""]);
+  const [question, setQuestion] = useState("");
+  const [willingToPay, setWillingToPay] = useState(0);
+  const { postQuestion } = useWeb3();
 
   const handleAddOption = () => {
     if (options.length < 4) {
@@ -13,6 +17,15 @@ export default function Ask() {
   const handleRemoveOption = (index) => {
     const newOptions = options.filter((_, i) => i !== index);
     setOptions(newOptions);
+  };
+
+  const handleOptionChange = (index, value) => {
+    const newOptions = options.map((option, i) => (i === index ? value : option));
+    setOptions(newOptions);
+  };
+
+  const handleSubmit = () => {
+    postQuestion(question, options, willingToPay);
   };
 
   return (
@@ -34,11 +47,13 @@ export default function Ask() {
               id="expanding-textarea"
               className="h-36 w-full max-w-[92%] overflow-y-auto rounded-lg border-none bg-lime-300 p-4 font-mono text-sm text-gray-700 outline-none placeholder:text-sm md:max-w-[90%] md:p-6 lg:max-w-[85%] lg:p-8 xl:max-w-[80%]"
               placeholder="Type your question here..."
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
             ></textarea>
           </div>
 
           {/* Dynamic Option Inputs */}
-          {options.map((_, index) => (
+          {options.map((option, index) => (
             <div
               key={index}
               className="mt-4 flex flex-col items-center justify-center"
@@ -49,6 +64,8 @@ export default function Ask() {
                   id={`option-input-${index}`}
                   className="w-full rounded-lg border-none bg-pink-300 p-4 pl-10 font-mono text-sm text-gray-700 placeholder-gray-600 outline-none"
                   placeholder={`Enter option ${index + 1}`}
+                  value={option}
+                  onChange={(e) => handleOptionChange(index, e.target.value)}
                 />
                 <button
                   onClick={() => handleRemoveOption(index)}
@@ -87,12 +104,17 @@ export default function Ask() {
               className="no-spinner mt-2 h-10 w-32 rounded-lg border-none bg-lime-300 p-2 text-center font-mono text-gray-700 outline-none placeholder:text-sm"
               placeholder="Amount"
               min="0"
+              value={willingToPay}
+              onChange={(e) => setWillingToPay(e.target.value)}
             />
           </div>
 
           {/* Submit Question Button Section */}
           <div className="mt-6 flex items-center justify-center">
-            <button className="rounded-lg border-amber-300 bg-pink-400 px-8 py-3 font-mono text-lg text-black shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:translate-x-1 hover:border-b-8 hover:border-l-8 hover:bg-pink-500">
+            <button
+              className="rounded-lg border-amber-300 bg-pink-400 px-8 py-3 font-mono text-lg text-black shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:translate-x-1 hover:border-b-8 hover:border-l-8 hover:bg-pink-500"
+              onClick={handleSubmit}
+            >
               Submit Question
             </button>
           </div>
