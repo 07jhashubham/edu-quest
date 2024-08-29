@@ -6,9 +6,9 @@ import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 export default function Dashboard() {
-  const username = "Kunal-Purohit"; // This can be any unique string
+  const username = "himanshu -bhumika"; // This can be any unique string
   const identiconSvg = minidenticon(username); // Generate the identicon SVG
-  const { shortenAddress, account , get_asked_ques } = useWeb3();
+  const { shortenAddress, account , user_quest , user_ans } = useWeb3();
 
   return (
     <div>
@@ -57,26 +57,34 @@ export default function Dashboard() {
               <div className="text-lg font-bold mt-8">Recent History</div>
               <div className="flex flex-row space-x-4">
                 <div>
-                  <p className="mb-2" onClick={get_asked_ques}>Asked_Questions</p>{" "}
+                  <p className="mb-2" >Asked_Questions</p>{" "}
                   <ul className="text-gray-300 space-y-2 h-32 overflow-y-auto custom-scrollbar">
-                    <li>121231</li>
-                    <li>1231231</li>
-                    <li>1231212</li>
-                    <li>1231212</li>
-                    <li>1231212</li>
-                    <li>1231212</li>
+                    {(user_quest.length <= 0)? (<li>Pleas Connect Wallet</li>):(
+                      <>
+                      {user_quest.map((quest)=>(
+                        <li>
+                           {quest.toNumber()}
+                        </li>
+                      ))}
+                      </>
+                     
+                    )}
                     {/* Add more list items here if needed */}
                   </ul>
                 </div>
                 <div>
                   <p className="mb-2">Answered_Questions</p>
                   <ul className="text-gray-300 space-y-2 h-32 overflow-y-auto custom-scrollbar">
-                    <li>121231</li>
-                    <li>1231231</li>
-                    <li>1231212</li>
-                    <li>121231</li>
-                    <li>1231231</li>
-                    <li>1231212</li>
+                  {(user_ans.length <= 0)? (<li>Please Connect Wallet</li>):(
+                      <>
+                      {user_ans.map((ans)=>(
+                        <li>
+                           {ans.toNumber()}
+                        </li>
+                      ))}
+                      </>
+                     
+                    )}
                     {/* Add more list items here if needed */}
                   </ul>
                 </div>

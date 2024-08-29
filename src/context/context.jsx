@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import eduABI from "../ABI/edu.json";  // Import the ABI
 import Web3Modal from "web3modal";
 import { ethers } from "ethers";
+import { BigNumber } from 'ethers'; 
 
 //by me  - 0x5868b4737E0831eE82952E51800ae4f6A55Baf8F
 
@@ -26,13 +27,18 @@ export const Web3Provider = ({ children }) => {
   const [balance, setBalance] = useState(null);
   const [asked_ques , set_asked_ques] = useState([]);
   const [SolvableQuestions , setSolvableQuestions] = useState([]);
+  const [user_quest , setuser_quest] = useState([]);
+  const [user_ans , setuser_ans] = useState([]);
 
 
   useEffect(() => {
     if (provider && signer) {
       updateBalance();
     }
-  }, [provider, signer]);
+    getuserquest();
+    getuserans();
+
+  }, [provider, signer,account,contract]);
 
   const loadProvider = async () => {
     try {
@@ -116,6 +122,50 @@ export const Web3Provider = ({ children }) => {
     }
   }
 
+
+
+  const getuserquest = async () => {
+    try {     
+      if (!contract) return;
+      
+      // Call the smart contract function to get the list of solvable questions
+      const questions = await contract.asked_questions_history();
+  
+      // Assuming `questions` is an array of objects, you can log them
+      console.log(questions);
+      console.log(questions[1].toNumber());
+
+  
+      // Update your state or UI with the fetched questions
+      setuser_quest(questions); // Example: assuming you have a state setter `setSolvableQuestions`
+  
+      toast.success("asked Questions fetched successfully!");
+    } catch (error) {
+      toast.error("Failed to fetch asked questions");
+      console.error(error); // Optionally log the error for debugging
+    }
+  }
+
+  const getuserans = async () => {
+    try {     
+      if (!contract) return;
+      
+      // Call the smart contract function to get the list of solvable questions
+      const questions = await contract.solved_questions();
+  
+      // Assuming `questions` is an array of objects, you can log them
+      console.log(questions);
+  
+      // Update your state or UI with the fetched questions
+      setuser_ans(questions); // Example: assuming you have a state setter `setSolvableQuestions`
+  
+      toast.success("answered Questions fetched successfully!");
+    } catch (error) {
+      toast.error("Failed to fetch asked questions");
+      console.error(error); // Optionally log the error for debugging
+    }
+  }
+
   const connectWallet = async () => {
     try {
       if (!window.ethereum) return console.log("Install MetaMask");
@@ -188,22 +238,7 @@ const answerQuestion = async (questionId, optionNumber, comment) => {
   }
 };
 
-const get_asked_ques = async () =>{
-  try {
-    if (!contract) return;
-    const askedQuestions = await contract.asked_questions_history();
 
-    // Log and set the fetched questions
-    console.log(askedQuestions);
-    set_asked_ques(askedQuestions);
-
-    // Notify success
-    toast.success("Asked Questions fetched Successfully!");
-  } catch (error) {
-    toast.error("Failed to fetch history");
-    console.error(error); // Optionally log the error for debugging
-  }
-}
 
 
 
@@ -215,7 +250,7 @@ const shortenAddress = (address) => {
   return address.slice(0, 5) + '...' + address.slice(address.length - 4);
 }
   return (
-    <Web3Context.Provider value={{ connectWallet, account, balance, contract, postQuestion, answerQuestion , shortenAddress , get_asked_ques  , SolvableQuestions , getSolvableQuestions }}>
+    <Web3Context.Provider value={{ connectWallet, account, balance, contract, postQuestion, answerQuestion , shortenAddress , getuserquest  , SolvableQuestions , getSolvableQuestions , user_quest , user_ans }}>
       {children}
     </Web3Context.Provider>
   );
