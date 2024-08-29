@@ -4,6 +4,7 @@ import CategoryIcon from "@mui/icons-material/Category";
 import AnswerList from "../components/AnswerList";
 import AnswerPopup from "../components/AnswerPopup";
 import answers from "../Data/answers.json";
+import { useWeb3 } from "../context/context";
 
 // Your answers data...
 
@@ -11,6 +12,9 @@ export default function AnswerPage() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
+
+  const {getSolvableQuestions} = useWeb3();
+
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -27,6 +31,7 @@ export default function AnswerPage() {
   };
 
   useEffect(() => {
+
     const handleEsc = (event) => {
       if (event.key === "Escape") {
         closePopup();
@@ -70,6 +75,7 @@ export default function AnswerPage() {
                     className="py-2 text-sm text-white dark:text-white"
                     aria-labelledby="dropdown-button"
                   >
+                  
                     <li>
                       <button
                         type="button"
@@ -114,6 +120,7 @@ export default function AnswerPage() {
                   required
                 />
                 <button
+                  onClick={getSolvableQuestions}
                   type="submit"
                   className="absolute bottom-0 right-0 top-0 h-full rounded-r-lg border border-pink-700 bg-pink-700 px-4 text-sm font-medium text-white hover:bg-pink-800 focus:outline-none focus:ring-4 focus:ring-pink-300 dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800"
                 >

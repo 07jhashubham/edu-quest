@@ -5,7 +5,7 @@ import { useWeb3 } from '../context/context.jsx'; // Import the Web3 context
 const ThreeScene = React.lazy(() => import("../ThreeScene"));
 
 export default function Home() {
-  const { connectWallet, account, balance } = useWeb3(); // Access the Web3 functions
+  const { connectWallet, account, balance , shortenAddress } = useWeb3(); // Access the Web3 functions
 
   return (
     <div>
@@ -38,10 +38,15 @@ export default function Home() {
           </Link>
           {/* Add a button to connect wallet */}
           {account ? (
-            <div className="flex items-center">
-              <span className="mr-4">Account: {account}</span>
-              {balance !== null && <span>Balance: {balance} ETH</span>}
-            </div>
+
+<button className="bg-lime-400 px-4 py-2 rounded">
+{shortenAddress(account)}
+</button>
+
+            // <div className="flex items-center">
+            //   <span className="mr-4">Account: {account}</span>
+            //   {balance !== null && <span>Balance: {balance} ETH</span>}
+            // </div>
           ) : (
             <button onClick={connectWallet} className="bg-lime-400 px-4 py-2 rounded">
               Connect Wallet

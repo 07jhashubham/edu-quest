@@ -4,6 +4,10 @@ import eduABI from "../ABI/edu.json";  // Import the ABI
 import Web3Modal from "web3modal";
 import { ethers } from "ethers";
 
+//by me  - 0x5868b4737E0831eE82952E51800ae4f6A55Baf8F
+
+//by momo - 0xd9145CCE52D386f254917e481eB44e9943F39138
+
 export const ACTIVE_NETWORK = "base_sepolia";  // Define the active network
 
 // Initialize Web3Modal once
@@ -20,6 +24,9 @@ export const Web3Provider = ({ children }) => {
   const [account, setAccount] = useState(null);
   const [contract, setContract] = useState(null);
   const [balance, setBalance] = useState(null);
+  const [asked_ques , set_asked_ques] = useState([]);
+  const [SolvableQuestions , setSolvableQuestions] = useState([]);
+
 
   useEffect(() => {
     if (provider && signer) {
@@ -38,7 +45,7 @@ export const Web3Provider = ({ children }) => {
       setSigner(signer);
       setAccount(address);
 
-      const contractAddress = "0xd9145CCE52D386f254917e481eB44e9943F39138";
+      const contractAddress = "0x5868b4737E0831eE82952E51800ae4f6A55Baf8F";
       const contract = new ethers.Contract(contractAddress, eduABI, signer);
       setContract(contract);
 
@@ -87,6 +94,28 @@ export const Web3Provider = ({ children }) => {
     }
   };
 
+
+
+  const getSolvableQuestions = async () => {
+    try {     
+      if (!contract) return;
+      
+      // Call the smart contract function to get the list of solvable questions
+      const questions = await contract.solvable_questions();
+  
+      // Assuming `questions` is an array of objects, you can log them
+      console.log(questions);
+  
+      // Update your state or UI with the fetched questions
+      setSolvableQuestions(questions); // Example: assuming you have a state setter `setSolvableQuestions`
+  
+      toast.success("Solvable Questions fetched successfully!");
+    } catch (error) {
+      toast.error("Failed to fetch solvable questions");
+      console.error(error); // Optionally log the error for debugging
+    }
+  }
+
   const connectWallet = async () => {
     try {
       if (!window.ethereum) return console.log("Install MetaMask");
@@ -99,6 +128,11 @@ export const Web3Provider = ({ children }) => {
       setAccount(firstAccount);
 
       await fetchContract(firstAccount);  // Pass the account to fetchContract
+
+      
+
+      
+
     } catch (error) {
       console.log(error);
     }
@@ -112,7 +146,7 @@ export const Web3Provider = ({ children }) => {
       const provider = new ethers.providers.Web3Provider(connection);
       const signer = provider.getSigner();
 
-      const contractAddress = "0x87f6d1212ad2A09EF302c5c937FF006424Ef35c8";
+      const contractAddress = "0x5868b4737E0831eE82952E51800ae4f6A55Baf8F";
       const contract = new ethers.Contract(contractAddress, eduABI, signer);
       setContract(contract);
 
@@ -145,6 +179,7 @@ const postQuestion = async (question, options, grant) => {
 const answerQuestion = async (questionId, optionNumber, comment) => {
   try {
     if (!contract) return;
+    console.log(contract);
     const tx = await contract.answer_question(questionId, optionNumber, comment);
     await tx.wait();
     toast.success("Answer submitted successfully!");
@@ -152,8 +187,35 @@ const answerQuestion = async (questionId, optionNumber, comment) => {
     toast.error("Failed to submit answer");
   }
 };
+
+const get_asked_ques = async () =>{
+  try {
+    if (!contract) return;
+    const askedQuestions = await contract.asked_questions_history();
+
+    // Log and set the fetched questions
+    console.log(askedQuestions);
+    set_asked_ques(askedQuestions);
+
+    // Notify success
+    toast.success("Asked Questions fetched Successfully!");
+  } catch (error) {
+    toast.error("Failed to fetch history");
+    console.error(error); // Optionally log the error for debugging
+  }
+}
+
+
+
+
+
+
+const shortenAddress = (address) => {
+  if (!address) return '';
+  return address.slice(0, 5) + '...' + address.slice(address.length - 4);
+}
   return (
-    <Web3Context.Provider value={{ connectWallet, account, balance, contract, postQuestion, answerQuestion }}>
+    <Web3Context.Provider value={{ connectWallet, account, balance, contract, postQuestion, answerQuestion , shortenAddress , get_asked_ques  , SolvableQuestions , getSolvableQuestions }}>
       {children}
     </Web3Context.Provider>
   );

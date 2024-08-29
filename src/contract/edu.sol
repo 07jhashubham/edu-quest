@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.7.0 <0.9.0;
-// import "hardhat/console.sol";
 
 contract Eduquest{
     
@@ -33,11 +32,9 @@ contract Eduquest{
     //     require(msg.sender == owner, "Caller is not the owner");
     //     _;
     // }
-
     receive() external payable {
 
     }
-
     constructor() {
         owner = msg.sender;
     }
@@ -51,7 +48,6 @@ contract Eduquest{
         require(msg.sender == owner, "you are not owner");
         return address(this).balance;
     }
-
     function post_question( string memory _question , string[] memory _options )  public payable{
 
         //require(msg.value == _grant, "Incorrect Ether sent for the grant");
@@ -74,9 +70,8 @@ contract Eduquest{
 
         question_from_id[currentid] = new_quest;
 
-        emit question_answered(msg.sender, msg.value, currentid);
+        emit question_posted(msg.sender, msg.value, currentid);
     }
-
     function answer_question(uint256 _question_id , uint8 _option_number , string memory _comment  ) public{
 
         Question storage quest = question_from_id[_question_id];
@@ -88,10 +83,9 @@ contract Eduquest{
 
         answered_questions[msg.sender].push(quest.question_id);
 
-        emit question_posted(msg.sender, quest.grant, _question_id);
+        emit question_answered(msg.sender, quest.grant, _question_id);
 
     }
-
     function approve_answer(uint256 _question_id) public {
 
         Question storage quest = question_from_id[_question_id];
@@ -108,7 +102,6 @@ contract Eduquest{
         emit approve(msg.sender , quest.answered_by, quest.grant, _question_id , rating[msg.sender]);
 
     }
-
     function reject_answer(uint256 _question_id) public {
 
         Question storage quest = question_from_id[_question_id];
@@ -125,23 +118,17 @@ contract Eduquest{
         emit reject(msg.sender , quest.answered_by, quest.grant, _question_id , rating[msg.sender]);
 
     }
-
     function explorer_by_id(uint256 _question_id) public view returns (Question memory) {
         require(_question_id<=currentid , "This ID does not exist");
         return question_from_id[_question_id];
     }
-
     function solvable_questions() public view returns (Question[] memory) {
         return all_questions;
     }
-
     function asked_questions_history() public view returns (uint256[] memory) {      
         return asked_questions[msg.sender];
     }
-
     function solved_questions() public view returns (uint256[] memory) {
             return answered_questions[msg.sender];
     }
-
-    
 }

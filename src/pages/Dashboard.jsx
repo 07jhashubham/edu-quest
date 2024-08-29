@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { minidenticon } from "minidenticons";
 import DeskNav from "../components/Desktopnav";
+import { useWeb3 } from "../context/context";
+import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
-  const username = "username-or-wallet-address"; // This can be any unique string
+  const username = "Kunal-Purohit"; // This can be any unique string
   const identiconSvg = minidenticon(username); // Generate the identicon SVG
+  const { shortenAddress, account , get_asked_ques } = useWeb3();
 
   return (
     <div>
@@ -33,14 +37,50 @@ export default function Dashboard() {
             <div className="flex flex-col w-3/4 space-y-4 text-pink-400">
               <div className="text-2xl font-bold">{username}</div>
               <div className="text-lg text-gray-300">
-                0x1234...5678 (Wallet Address)
+                {account}{" "}
+                <Link>
+                  {" "}
+                  <span
+                    onClick={() => {
+                      if (account) {
+                        navigator.clipboard.writeText(account);
+                        toast.success("Account Posted Successfully!");
+                      }
+                    }}
+                    className="text-gray-500"
+                  >
+                    📋
+                  </span>{" "}
+                  {/* Copy symbol */}
+                </Link>
               </div>
               <div className="text-lg font-bold mt-8">Recent History</div>
-              <ul className="text-gray-300 space-y-2">
-                <li>121231</li>
-                <li>1231231</li>
-                <li>1231212</li>
-              </ul>
+              <div className="flex flex-row space-x-4">
+                <div>
+                  <p className="mb-2" onClick={get_asked_ques}>Asked_Questions</p>{" "}
+                  <ul className="text-gray-300 space-y-2 h-32 overflow-y-auto custom-scrollbar">
+                    <li>121231</li>
+                    <li>1231231</li>
+                    <li>1231212</li>
+                    <li>1231212</li>
+                    <li>1231212</li>
+                    <li>1231212</li>
+                    {/* Add more list items here if needed */}
+                  </ul>
+                </div>
+                <div>
+                  <p className="mb-2">Answered_Questions</p>
+                  <ul className="text-gray-300 space-y-2 h-32 overflow-y-auto custom-scrollbar">
+                    <li>121231</li>
+                    <li>1231231</li>
+                    <li>1231212</li>
+                    <li>121231</li>
+                    <li>1231231</li>
+                    <li>1231212</li>
+                    {/* Add more list items here if needed */}
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>

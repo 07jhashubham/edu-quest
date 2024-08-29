@@ -45,12 +45,13 @@ const Floor = () => {
   colorMap.colorSpace = THREE.SRGBColorSpace;
 
   return (
-    <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+    <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow >
       <circleGeometry args={[5, 64]} />
       <meshStandardMaterial
         map={colorMap}
         normalMap={normalMap}
         envMapIntensity={0.4}
+        side={THREE.DoubleSide}
       />
     </mesh>
   );
@@ -96,7 +97,7 @@ const ThreeScene = () => {
       <Floor />
 
       {/* Orbit Controls */}
-      <OrbitControls enableDamping />
+      <OrbitControls enableDamping enableZoom={false} />
     </Canvas>
   );
 };

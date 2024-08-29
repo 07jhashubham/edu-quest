@@ -25,7 +25,7 @@ export default function Ask() {
   };
 
   const handleSubmit = () => {
-    postQuestion(question, options, willingToPay);
+    postQuestion(question, options , willingToPay);
   };
 
   return (
@@ -122,18 +122,21 @@ export default function Ask() {
       </div>
 
       {/* Custom CSS */}
-      <style jsx>{`
-        /* Hide default input number arrows */
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-          -webkit-appearance: none;
-          margin: 0;
-        }
+      <style>
+  {`
+    /* Hide default input number arrows */
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
 
-        input[type="number"] {
-          -moz-appearance: textfield;
-        }
-      `}</style>
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
+  `}
+</style>
+
     </div>
   );
 }

@@ -1,11 +1,12 @@
-import React from "react";
+import { React, useEffect , useState } from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import StarIcon from "@mui/icons-material/Star";
-import { useWeb3 } from '../context/context'; // Import the Web3 context
+import { useWeb3 } from "../context/context"; // Import the Web3 context
 
 export default function AnswerList({ answers, openPopup }) {
-  const { voteOnAnswer } = useWeb3(); // Get the voteOnAnswer function from the context
+  const [isLoading, setIsLoading] = useState(false); // State to trigger re-render
 
+  const { voteOnAnswer, SolvableQuestions } = useWeb3(); // Get the voteOnAnswer function from the context
   const handleVote = (answerId) => {
     voteOnAnswer(answerId); // Call the smart contract function
   };
@@ -45,5 +46,17 @@ export default function AnswerList({ answers, openPopup }) {
         </div>
       ))}
     </div>
+
+    // <>
+    //  {SolvableQuestions && SolvableQuestions.length > 0 ? (
+    //     SolvableQuestions.map((question) => (
+    //       <div key={question[0].toString()}>
+    //         <p>{question[1]}</p>
+    //         {/* Add more details as needed */}
+    //       </div>
+    //     ))
+    //   ) : (
+    //     <p onClick={handlerefresh}>Load questions please</p>
+    //   )}</>
   );
 }
