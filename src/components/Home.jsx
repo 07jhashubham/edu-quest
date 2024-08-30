@@ -55,7 +55,17 @@ export default function Home() {
         </div>
       </div>
       <div className="flex items-center justify-between mx-8">
-        <div className="text-white text-4xl">Hello, Welcome to the DApp!</div>
+        {/* <div className="text-white text-4xl">Hello, Welcome to the DApp! We at EDUQuest aim to solve every persons doubt in a decentralised ecosystem where curiosity meets knowledge.</div> */}
+        <div className="text-white text-4xl font-bold tracking-wide">
+  <div className="bg-gradient-to-r from-blue-500 via-purple-600 to-pink-500 text-transparent bg-clip-text">
+    Hello, Welcome to the DApp!
+  </div>
+  <div className="mt-2 text-xl">
+    We at <span className="font-extrabold">EDUQuest</span> aim to solve every person's doubt in a decentralized ecosystem where curiosity meets knowledge.
+  </div>
+
+
+</div>
         <div className="flex-shrink-0">
           <Suspense fallback={<div>Loading scene...</div>}>
             <ThreeScene />
