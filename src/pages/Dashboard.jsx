@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 export default function Dashboard() {
-  const username = "himanshu -bhumika"; // This can be any unique string
+  const username = "joel-nupurx"; // This can be any unique string
   const identiconSvg = minidenticon(username); // Generate the identicon SVG
   const { shortenAddress, account , user_quest , user_ans } = useWeb3();
 
@@ -44,7 +44,7 @@ export default function Dashboard() {
                     onClick={() => {
                       if (account) {
                         navigator.clipboard.writeText(account);
-                        toast.success("Account Posted Successfully!");
+                        toast.success("Account Copied Successfully!");
                       }
                     }}
                     className="text-gray-500"
