@@ -8,7 +8,12 @@ import { Link } from "react-router-dom";
 export default function Dashboard() {
   const username = "joel-nupurx"; // This can be any unique string
   const identiconSvg = minidenticon(username); // Generate the identicon SVG
-  const { shortenAddress, account , user_quest , user_ans } = useWeb3();
+  const { shortenAddress, account , user_quest , user_ans , getuserquest , getuserans } = useWeb3();
+
+const fetchhistory =()=>{
+  getuserquest();
+    getuserans();
+}
 
   return (
     <div>
@@ -54,7 +59,15 @@ export default function Dashboard() {
                   {/* Copy symbol */}
                 </Link>
               </div>
-              <div className="text-lg font-bold mt-8">Recent History</div>
+
+              <button
+              onClick={fetchhistory}
+              className=" w-44 mx-2 rounded-lg border-b-amber-300 border-l-amber-300 bg-pink-400 py-3 font-mono text-black shadow-lg hover:-translate-y-1 hover:translate-x-1 hover:border-b-8 hover:border-l-8 hover:bg-pink-500"
+            >
+              Fetch History
+            </button>
+
+              {/* <div className="text-lg font-bold mt-8">Recent History</div> */}
               <div className="flex flex-row space-x-4">
                 <div>
                   <p className="mb-2" >Asked_Questions</p>{" "}

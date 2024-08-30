@@ -85,9 +85,9 @@ export default function Ask() {
             >
               Options
             </button>
-            <button className="mx-8 rounded-lg border-b-amber-300 border-l-amber-300 bg-pink-400 px-9 py-3 font-mono text-black shadow-lg hover:-translate-y-1 hover:translate-x-1 hover:border-b-8 hover:border-l-8 hover:bg-pink-500">
+            {/* <button className="mx-8 rounded-lg border-b-amber-300 border-l-amber-300 bg-pink-400 px-9 py-3 font-mono text-black shadow-lg hover:-translate-y-1 hover:translate-x-1 hover:border-b-8 hover:border-l-8 hover:bg-pink-500">
               Image
-            </button>
+            </button> */}
           </div>
 
           {/* Willing to Pay Section */}

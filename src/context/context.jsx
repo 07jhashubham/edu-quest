@@ -250,7 +250,7 @@ const shortenAddress = (address) => {
   return address.slice(0, 5) + '...' + address.slice(address.length - 4);
 }
   return (
-    <Web3Context.Provider value={{ connectWallet, account, balance, contract, postQuestion, answerQuestion , shortenAddress , getuserquest  , SolvableQuestions , getSolvableQuestions , user_quest , user_ans }}>
+    <Web3Context.Provider value={{ connectWallet, account, balance, contract, postQuestion, answerQuestion , shortenAddress , getuserquest  , SolvableQuestions , getSolvableQuestions , user_quest , user_ans ,getuserquest , getuserans}}>
       {children}
     </Web3Context.Provider>
   );
