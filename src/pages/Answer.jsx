@@ -64,7 +64,7 @@ export default function AnswerPage() {
                 onClick={toggleDropdown}
               >
                 <CategoryIcon className="mr-2" />
-                All categories
+                SORT
               </button>
               {isDropdownOpen && (
                 <div
@@ -81,7 +81,7 @@ export default function AnswerPage() {
                         type="button"
                         className="inline-flex w-full px-4 py-2 hover:bg-pink-600 dark:hover:bg-pink-600 dark:hover:text-white"
                       >
-                        Mockups
+                        High to Low
                       </button>
                     </li>
                     <li>
@@ -89,7 +89,7 @@ export default function AnswerPage() {
                         type="button"
                         className="inline-flex w-full px-4 py-2 hover:bg-pink-600 dark:hover:bg-pink-600 dark:hover:text-white"
                       >
-                        Templates
+                        Low to High
                       </button>
                     </li>
                     <li>
@@ -97,7 +97,7 @@ export default function AnswerPage() {
                         type="button"
                         className="inline-flex w-full px-4 py-2 hover:bg-pink-600 dark:hover:bg-pink-600 dark:hover:text-white"
                       >
-                        Design
+                        Earliest
                       </button>
                     </li>
                     <li>
@@ -105,7 +105,7 @@ export default function AnswerPage() {
                         type="button"
                         className="inline-flex w-full px-4 py-2 hover:bg-pink-600 dark:hover:bg-pink-600 dark:hover:text-white"
                       >
-                        Logos
+                        Latest
                       </button>
                     </li>
                   </ul>
