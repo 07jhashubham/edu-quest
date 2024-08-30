@@ -102,25 +102,54 @@ export const Web3Provider = ({ children }) => {
 
 
 
+  // const getSolvableQuestions = async () => {
+  //   try {     
+  //     if (!contract) return;
+      
+  //     // Call the smart contract function to get the list of solvable questions
+  //     const questions = await contract.solvable_questions();
+  
+  //     // Assuming `questions` is an array of objects, you can log them
+  //     console.log(questions);
+  
+  //     // Update your state or UI with the fetched questions
+  //     setSolvableQuestions(questions); // Example: assuming you have a state setter `setSolvableQuestions`
+  
+  //     toast.success("Solvable Questions fetched successfully!");
+  //   } catch (error) {
+  //     toast.error("Failed to fetch solvable questions");
+  //     console.error(error); // Optionally log the error for debugging
+  //   }
+  // }
   const getSolvableQuestions = async () => {
     try {     
       if (!contract) return;
       
-      // Call the smart contract function to get the list of solvable questions
+      // Fetch all questions from the contract
       const questions = await contract.solvable_questions();
   
-      // Assuming `questions` is an array of objects, you can log them
-      console.log(questions);
+      // Filter the questions to include only those that are unanswered
+      const filteredQuestions = questions.filter((question) => question.status === 0);
   
-      // Update your state or UI with the fetched questions
-      setSolvableQuestions(questions); // Example: assuming you have a state setter `setSolvableQuestions`
+      // Update the state with the filtered questions
+      setSolvableQuestions(filteredQuestions);
   
       toast.success("Solvable Questions fetched successfully!");
     } catch (error) {
       toast.error("Failed to fetch solvable questions");
       console.error(error); // Optionally log the error for debugging
     }
-  }
+  };
+  
+
+
+
+
+
+
+
+
+
 
 
 
@@ -226,6 +255,18 @@ const postQuestion = async (question, options, grant) => {
   }
 };
 
+// const answerQuestion = async (questionId, optionNumber, comment) => {
+//   try {
+//     if (!contract) return;
+//     console.log(contract);
+//     const tx = await contract.answer_question(questionId, optionNumber, comment);
+//     await tx.wait();
+//     toast.success("Answer submitted successfully!");
+//   } catch (error) {
+//     toast.error("Failed to submit answer");
+//   }
+// };
+
 const answerQuestion = async (questionId, optionNumber, comment) => {
   try {
     if (!contract) return;
@@ -233,11 +274,15 @@ const answerQuestion = async (questionId, optionNumber, comment) => {
     const tx = await contract.answer_question(questionId, optionNumber, comment);
     await tx.wait();
     toast.success("Answer submitted successfully!");
+
+    // After the question is answered, update the state to remove the answered question
+    setSolvableQuestions((prevQuestions) =>
+      prevQuestions.filter((question) => question.question_id !== questionId)
+    );
   } catch (error) {
     toast.error("Failed to submit answer");
   }
 };
-
 
 
 
