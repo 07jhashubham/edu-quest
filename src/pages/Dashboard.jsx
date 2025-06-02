@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 export default function Dashboard() {
-  const username = "joel-nupurx"; // This can be any unique string
+  const username = "aman-bsdk"; // This can be any unique string
   const identiconSvg = minidenticon(username); // Generate the identicon SVG
   const { shortenAddress, account , user_quest , user_ans , getuserquest , getuserans } = useWeb3();
 
